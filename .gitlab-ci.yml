@@ -1,0 +1,20 @@
+image: rustlang/rust:nightly
+
+format:
+  script:
+    - rustup component add rustfmt
+    - cargo fmt -- --check
+
+check-linux:
+  script:
+    - apt-get update
+    - apt-get install libdbus-1-dev -y
+    - cargo clippy --release
+
+check-windows:
+  script:
+    - apt-get update
+    - apt-get install mingw-w64 -y
+    - rustup target add x86_64-pc-windows-gnu
+    - cargo clippy --release --target x86_64-pc-windows-gnu
+

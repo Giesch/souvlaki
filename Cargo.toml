@@ -1,0 +1,41 @@
+[package]
+name = "souvlaki"
+version = "0.5.1"
+authors = ["Sinono3 <aldo@aael.xyz>"]
+edition = "2018"
+description = "A cross-platform media key and metadata handling library."
+repository = "https://github.com/Sinono3/souvlaki"
+documentation = "https://docs.rs/souvlaki"
+license = "MIT"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+raw-window-handle = "0.5"
+
+[target.'cfg(target_os = "windows")'.dependencies.windows]
+version = "0.42"
+features = [
+	"Foundation",
+	"Media",
+	"Win32_Foundation",
+	"Win32_System_WinRT",
+	"Storage_Streams",
+]
+
+[target.'cfg(target_os = "macos")'.dependencies]
+block = "0.1.6"
+cocoa = "0.24.0"
+core-graphics = "0.22.3"
+dispatch = "0.2.0"
+objc = "0.2.7"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus = "3.2"
+zvariant = "3.7"
+pollster = "0.2"
+
+[dev-dependencies]
+winit = "0.27"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"
+targets = ["x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-msvc"]

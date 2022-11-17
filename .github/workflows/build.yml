@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: 
+      - "**"
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+    - uses: Swatinem/rust-cache@v1
+    - name: Install Dependencies
+      run: sudo apt-get install -y libdbus-1-dev pkg-config
+      if: ${{ runner.os == 'Linux' }}
+    - name: Build
+      run: cargo build --release --all-targets --verbose 
